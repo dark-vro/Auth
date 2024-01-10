@@ -77,6 +77,7 @@ app.get('/', (req, res) => {
     layout: 'home'
   });
 })
+
 app.get('/docs', isAuthenticated, async(req, res) => {
   let getkey = await getApikey(req.user.id)
   let { apikey, username, limit} = getkey
@@ -85,86 +86,6 @@ app.get('/docs', isAuthenticated, async(req, res) => {
     username,
     limit,
     layout: 'index'
-  });
-})
-app.get('/cecan', isAuthenticated, async(req, res) => {
-  let getkey = await getApikey(req.user.id)
-  let { apikey, username } = getkey
-  res.render('cecan', {
-    apikey,
-    layout: 'cecan'
-  });
-})
-
-app.get('/downloader', isAuthenticated, async(req, res) => {
-  let getkey = await getApikey(req.user.id)
-  let { apikey, username } = getkey
-  res.render('downloader', {
-    apikey,
-    layout: 'downloader'
-  });
-})
-
-app.get('/news', isAuthenticated, async(req, res) => {
-  let getkey = await getApikey(req.user.id)
-  let { apikey, username } = getkey
-  res.render('news', {
-    apikey,
-    layout: 'news'
-  });
-})
-
-app.get('/photooxy', isAuthenticated, async(req, res) => {
-  let getkey = await getApikey(req.user.id)
-  let { apikey, username } = getkey
-  res.render('photooxy', {
-  apikey,
-    layout: 'photooxy'
-  });
-})
-
-app.get('/search', isAuthenticated, async(req, res) => {
-  let getkey = await getApikey(req.user.id)
-  let { apikey, username } = getkey
-  res.render('search', {
-    apikey,
-    layout: 'search'
-  });
-})
-
-app.get('/nsfw', isAuthenticated, async(req, res) => {
-  let getkey = await getApikey(req.user.id)
-  let { apikey, username } = getkey
-  res.render('nsfw', {
-    apikey,
-    layout: 'nsfw'
-  });
-})
-
-app.get('/islam', isAuthenticated, async(req, res) => {
-  let getkey = await getApikey(req.user.id)
-  let { apikey, username } = getkey
-  res.render('islam', {
-    apikey,
-    layout: 'islam'
-  });
-})
-
-app.get('/game', isAuthenticated, async(req, res) => {
-  let getkey = await getApikey(req.user.id)
-  let { apikey, username } = getkey
-  res.render('game', {
-    apikey,
-    layout: 'game'
-  });
-})
-
-app.get('/other', isAuthenticated, async(req, res) => {
-  let getkey = await getApikey(req.user.id)
-  let { apikey, username } = getkey
-  res.render('other', {
-    apikey,
-    layout: 'other'
   });
 })
 
