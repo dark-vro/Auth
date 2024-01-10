@@ -140,7 +140,7 @@ router.post('/signup', async (req, res) => {
                otp
             }
             const activationToken = createActivationToken(newUser)
-            addUser(username, email, password, otp, apikey);
+            addUser(username, email, hashedPassword, otp, apikey);
             const url = `https://${req.hostname}/users/activation?id=${activationToken}`
             await sendEmail.inboxGmailRegist(email, otp);
             req.flash('success_msg', 'You are now registered, please check your email to verify your account');
