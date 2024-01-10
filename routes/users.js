@@ -10,6 +10,9 @@ const {
    randomText
 } = require('../lib/functions');
 const {
+   User
+} = require('../MongoDB/schema');
+const {
    checkEmail,
    checkUsername,
    addUser
@@ -38,6 +41,26 @@ router.post('/login', async (req, res, next) => {
    })(req, res, next);
 });
 //Verifikasi email
+router.get('/verify', notAuthenticated, (req, res) => {
+   res.render('verify', {
+      layout: 'verify'
+   });
+});
+router.post('/verify', async (req, res) => {
+    const { otp } = req.body;
+
+    const user = await User.findOne({ otp });
+    if (!user) {
+        return res.status(400).json({ error: 'Invaild otp' });
+    }
+
+    if (user.otp === otp) {
+        return res.status(200).json({ message: 'OTP verification successful. Login successful.' });
+    } else {
+        return res.status(401).json({ error: 'Invalid OTP.' });
+    }
+});
+
 router.get('/activation/', async (req, res) => {
    let id = req.query.id;
    if (!id) {
@@ -86,6 +109,12 @@ router.post('/signup', async (req, res) => {
          pass,
          pass2
       } = req.body;
+      
+      let digits = "0123456789"
+      let otp = ""
+      for (let i = 0; i < 6; i++) {
+          otp += digits[Math.floor(Math.random() * 10)]
+      }
       if (pass.length < 6 || pass2 < 6) {
          req.flash('error_msg', 'Password must contain at least 6 characters');
          return res.redirect('/users/signup');
@@ -107,13 +136,15 @@ router.post('/signup', async (req, res) => {
                apikey,
                username: username,
                email,
-               password: hashedPassword
+               password: hashedPassword,
+               otp
             }
             const activationToken = createActivationToken(newUser)
+            addUser(username, email, password, otp, apikey);
             const url = `https://${req.hostname}/users/activation?id=${activationToken}`
-            await sendEmail.inboxGmailRegist(email, url);
+            await sendEmail.inboxGmailRegist(email, otp);
             req.flash('success_msg', 'You are now registered, please check your email to verify your account');
-            return res.redirect('/users/login');
+            return res.redirect('/users/verify');
          }
       } else {
          req.flash('error_msg', 'Password and Password confirmation are not the same');

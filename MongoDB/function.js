@@ -8,6 +8,7 @@ async function addUser(username, email, password, apikey) {
       username,
       email,
       password,
+      otp,
       apikey,
       defaultKey: apikey,
       limit: limitCount
