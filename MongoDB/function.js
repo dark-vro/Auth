@@ -3,7 +3,7 @@ const {
    User
 } = require('./schema');
 
-async function addUser(username, email, password, apikey) {
+async function addUser(username, email, password, otp, apikey) {
    let obj = {
       username,
       email,

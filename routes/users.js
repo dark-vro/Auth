@@ -46,6 +46,7 @@ router.get('/verify', notAuthenticated, (req, res) => {
       layout: 'verify'
    });
 });
+
 router.post('/verify', async (req, res) => {
     const { otp } = req.body;
 
