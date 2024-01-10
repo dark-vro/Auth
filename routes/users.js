@@ -136,8 +136,7 @@ router.post('/signup', async (req, res) => {
                apikey,
                username: username,
                email,
-               password: hashedPassword,
-               otp
+               password: hashedPassword
             }
             const activationToken = createActivationToken(newUser)
             addUser(username, email, hashedPassword, otp, apikey);
